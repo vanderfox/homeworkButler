@@ -1,0 +1,81 @@
+
+Base URL Depends on school - https://ps-wvil.metasolutions.net
+
+Login Page
+===========
+  <baseURL>/public/home.html
+  Set value of thistextbox to the account username - //*[@id="fieldAccount"]
+  set value of password in this textbox - //*[@id="fieldPassword"]
+  Submit this form, notice the onsubmit function must be fired: 
+    <form action="/guardian/home.html" 
+      method="post" name="LoginForm" target="_top" 
+      id="LoginForm" onsubmit="doPCASLogin(this);">
+
+
+
+==========================================================================================
+Resources on <baseURL>/guardian/home.html:
+------------------------------------------------------------------
+  Getting to the Course pages that have homework content:
+  ........................................................
+      grep this page - <baseURL>/guardian/home.html 
+      for 
+        <a href="scores.html?frn=[wildcard-for-course-id]&amp;fg=[wildcard-for-grading-period]"
+      follow links to those pages for the current grading period, e.g. "Q3"
+      On each page, find the homework table - see "Getting Assignment Lists" below
+
+
+  Getting the Grading Periods - 
+  .............................
+     #quickLookup > table.linkDescList.grid > tbody > tr:nth-child(2)
+     e.g. - 
+        <tr class="center th2">
+        <th rowspan="2">Exp</th>
+        <th colspan="5">Last Week</th><th colspan="5">This Week</th><th rowspan="2">Course</th>
+        <th rowspan="2">I1</th>
+        <th rowspan="2">Q1</th>
+        <th rowspan="2">I2</th>
+        <th rowspan="2">Q2</th>
+        <th rowspan="2">E1</th>
+        <th rowspan="2">S1</th>
+        <th rowspan="2">I3</th>
+        <th rowspan="2">Q3</th>
+        <th rowspan="2">I4</th>
+        <th rowspan="2">Q4</th>
+        <th rowspan="2">Absences</th>
+        <th rowspan="2">Tardies</th>
+        </tr>
+
+  Getting the list of courses and and teacher contact info -
+  ........................................................
+    This path:
+    //*[@id="quickLookup"]/table[1]/tbody/tr[4]
+    
+    -or-
+    #quickLookup > table.linkDescList.grid > tbody > tr:nth-child(4)
+    is actually the forth <tr/> in the table starts the list of courses that will have grades...
+    all remaining rows with class name beginning with "ccid" are the the data we're after:
+      course, teacher name and email
+      
+      
+Getting Assignment Lists
+=========================
+
+from the ./scores.html?frn=*  pages collected above, gather the data on the page as follows:
+Student name - //*[@id="content-main"]/h1
+Course name - //*[@id="content-main"]/div[3]/table[1]/tbody/tr[2]/td[1]
+Teacher name - //*[@id="content-main"]/div[3]/table[1]/tbody/tr[2]/td[2]
+Current Grade - //*[@id="content-main"]/div[3]/table[1]/tbody/tr[2]/td[4]
+Assignments table:
+  Table header - //*[@id="scoreTable"]/thead
+    e.g. of Column names:
+      Due Date, Category, Assignment, Flags, Score, %, Grade
+  
+  Assignment rows:
+    Rows in the table body given by - 
+    //*[@id="scoreTable"]/tbody
+    
+  Last Updated date - //*[@id="scoreTable"]/tbody/tr[6]/td/span/span
+    
+
+ 
